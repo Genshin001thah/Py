@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Main</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main>
+    <h1 class="titulo">EJERCICIOS PRACTICOS</h1>
+
+    {% macro resultado_de(n) %}
+      {% if resultado and resultado.ej == n %}
+        <div class="resultado">
+          {% if resultado.texto %}<p>{{ resultado.texto }}</p>{% endif %}
+          {% if resultado.lineas %}
+            <ul>{% for l in resultado.lineas %}<li>{{ l }}</li>{% endfor %}</ul>
+          {% endif %}
+        </div>
+      {% endif %}
+    {% endmacro %}
+
+    <section class="tarjeta" id="ej1">
+      <div class="num">1</div>
+      <div class="contenido">
+        <h2>Par o impar</h2>
+        <p>Escribe un número y se mostrará si es par o impar.</p>
+        <form method="post">
+          <input type="hidden" name="ejercicio" value="1">
+          <input type="number" name="numero" placeholder="Número" required>
+          <button type="submit">Comprobar</button>
+        </form>
+        {{ resultado_de("1") }}
+      </div>
+    </section>
+
+    <section class="tarjeta" id="ej2">
+      <div class="num oscuro">2</div>
+      <div class="contenido">
+        <h2>Tabla de multiplicar</h2>
+        <p>Escribe un numero y se mostrara su tabla de multiplicar del 1 al 10.</p>
+        <form method="post">
+          <input type="hidden" name="ejercicio" value="2">
+          <input type="number" name="numero" placeholder="Número" required>
+          <button type="submit">Mostrar tabla</button>
+        </form>
+        {{ resultado_de("2") }}
+      </div>
+    </section>
+
+    <section class="tarjeta" id="ej3">
+      <div class="num">3</div>
+      <div class="contenido">
+        <h2>Adivina el número</h2>
+        <p>Adivina el número secreto (entre 1 y 100). Te diré si es mayor o menor.</p>
+        <form method="post">
+          <input type="hidden" name="ejercicio" value="3">
+          <input type="number" name="numero" placeholder="Tu intento" min="1" max="100" required>
+          <button type="submit">Probar</button>
+        </form>
+        {{ resultado_de("3") }}
+      </div>
+    </section>
+
+    <section class="historial">
+      <h2>Historial guardado</h2>
+      {% if historial %}
+        <table>
+          <thead>
+            <tr><th>Ejercicio</th><th>Entrada</th><th>Resultado</th><th>Fecha</th></tr>
+          </thead>
+          <tbody>
+            {% for h in historial %}
+            <tr>
+              <td>{{ h.ejercicio }}</td>
+              <td>{{ h.entrada }}</td>
+              <td>{{ h.resultado }}</td>
+              <td>{{ h.fecha }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p>Aún no hay registros. Resuelve un ejercicio para verlo aquí.</p>
+      {% endif %}
+    </section>
+  </main>
+</body>
+</html>
